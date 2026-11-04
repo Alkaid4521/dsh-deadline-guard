@@ -7,13 +7,13 @@ Every call is sorted into a budget kind, given a deadline, and — when it runs 
 ## Install
 
 ```bash
-dsh plugin --profile web add dsh-budget-guard
+dsh plugin --profile web add github:Alkaid4521/dsh-budget-guard
 ```
 
-Or from this repository:
+Or install the tarball from the [releases page](https://github.com/Alkaid4521/dsh-budget-guard/releases) when the profile host cannot reach GitHub directly:
 
 ```bash
-dsh plugin --profile web add github:Alkaid4521/dsh-budget-guard
+dsh plugin --profile web add https://github.com/Alkaid4521/dsh-budget-guard/releases/download/v0.1.0/dsh-budget-guard-0.1.0.tgz
 ```
 
 Restart the harness afterwards. Manual install (older profiles) is covered at the bottom.
