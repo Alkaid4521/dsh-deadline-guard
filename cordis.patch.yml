@@ -1,0 +1,48 @@
+# dsh-budget-guard bundle patch
+#
+# One row: the guard itself. It injects the `tools` registry and wraps
+# `tools/execute`, so it needs no other plugin to be present.
+#
+# Every value below is a default you can override per profile; the meanings are
+# documented in README.md under "Configuration".
+
+- insert:
+    - id: budget-guard
+      name: dsh-budget-guard
+      config:
+        # Master switch. false unloads the guard without uninstalling the package.
+        enabled: true
+
+        # A declaration tighter than the resolved budget wins; a looser one gets
+        # clamped. false ignores declarations entirely and always uses the budget.
+        respectDeclared: true
+
+        # Once a kind has >= 5 successful samples, use max(p95 * 3, 5s) instead of
+        # the catalog value. This is the part that stops budgets from being guesses.
+        adaptive: true
+
+        # Append the measured p50/p95 and the next-step list to a timeout result.
+        hints: true
+
+        # Append one JSONL line per call to $DSH_HOME/budget-guard/calls.jsonl.
+        ledger: true
+
+        # Milliseconds a tool gets past its budget before the wrapper stops waiting
+        # for it. Only reached by a tool that ignores exec.signal.
+        graceMs: 3000
+
+        budgets:
+          net: 15000
+          search: 30000
+          read: 15000
+          shell: 60000
+          build: 180000
+          tool: 60000
+
+        ceilings:
+          net: 30000
+          search: 120000
+          read: 60000
+          shell: 300000
+          build: 600000
+          tool: 600000
