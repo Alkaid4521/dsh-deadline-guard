@@ -58,10 +58,12 @@ await test('catalog budget is used with no history', () => {
   assert.equal(d.arm, true);
 });
 
-await test('adaptive budget follows measured p95', () => {
-  const d = resolveBudget({ kind: 'shell', config: {}, stats: { ok: 10, p95: 1000 } });
-  assert.equal(d.source, 'adaptive');
-  assert.equal(d.budget, Math.max(3000, 5000));
+await test('adaptive follows measured p95, with the floor as a lower bound', () => {
+  const low = resolveBudget({ kind: 'shell', config: {}, stats: { ok: 10, p95: 1000 } });
+  assert.equal(low.source, 'adaptive');
+  assert.equal(low.budget, 30000, 'floor should win over a tiny p95');
+  const high = resolveBudget({ kind: 'shell', config: {}, stats: { ok: 10, p95: 20000 } });
+  assert.equal(high.budget, 60000, 'p95 * 3 should win above the floor');
 });
 
 await test('adaptive budget is capped by the kind ceiling', () => {
@@ -79,6 +81,27 @@ await test('an absurd declared timeout is clamped', () => {
   const d = resolveBudget({ kind: 'net', declared: 900000, config: {} });
   assert.equal(d.arm, true);
   assert.ok(d.budget <= 30000);
+});
+
+await test('a leading cd/mkdir does not decide the kind for the whole line', () => {
+  assert.equal(classify('ops_bash', { command: 'mkdir -p /tmp/x && npm pack foo' }).kind, 'build');
+  assert.equal(classify('ops_bash', { command: 'cd /repo && tar -xzf a.tgz' }).kind, 'build');
+  assert.equal(classify('ops_bash', { command: 'cd /repo && grep -rn x .' }).kind, 'search');
+  assert.equal(classify('ops_bash', { command: 'cd /repo && curl -sS http://h/' }).kind, 'net');
+});
+
+await test('adaptive never drops below the kind floor', () => {
+  const d = resolveBudget({ kind: 'shell', config: {}, stats: { ok: 20, p95: 20 } });
+  assert.ok(d.budget >= 30000, 'expected >= 30000, got ' + d.budget);
+});
+
+await test('adaptive off honors an explicitly configured budget', () => {
+  const d = resolveBudget({
+    kind: 'net',
+    config: { adaptive: false, budgets: { net: 3000 } },
+    stats: { ok: 20, p95: 20 },
+  });
+  assert.equal(d.budget, 3000);
 });
 
 await test('a loose declaration is clamped, not honored', () => {

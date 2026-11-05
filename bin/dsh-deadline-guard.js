@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * dsh-budget-guard CLI.
+ * dsh-deadline-guard CLI.
  *
  *   report                 what actually happened, per kind, with the budget this
  *                          plugin would pick next time
@@ -9,7 +9,7 @@
  *   path                   where the ledger lives
  *   reset                  truncate the ledger
  *
- * @module dsh-budget-guard/bin
+ * @module dsh-deadline-guard/bin
  */
 
 import fs from 'node:fs';
@@ -170,6 +170,6 @@ switch (command) {
     reset();
     break;
   default:
-    console.log('usage: dsh-budget-guard <report|explain|path|reset> [--tool NAME] [--cmd STRING] [--json]');
+    console.log('usage: dsh-deadline-guard <report|explain|path|reset> [--tool NAME] [--cmd STRING] [--json]');
     process.exitCode = 1;
 }

@@ -1,11 +1,11 @@
 {
-  "name": "dsh-budget-guard",
+  "name": "dsh-deadline-guard",
   "version": "0.1.0",
   "description": "Deadline budgets for DSH tool calls: classifies each call, arms a tight deadline for undeclared tools, returns actionable next-step hints on timeout, and keeps a measured latency ledger so the next budget comes from data instead of a guess.",
   "type": "module",
   "main": "lib/index.js",
   "bin": {
-    "dsh-budget-guard": "bin/dsh-budget-guard.js"
+    "dsh-deadline-guard": "bin/dsh-deadline-guard.js"
   },
   "exports": {
     ".": {
@@ -41,11 +41,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alkaid4521/dsh-budget-guard.git"
+    "url": "git+https://github.com/Alkaid4521/dsh-deadline-guard.git"
   },
-  "homepage": "https://github.com/Alkaid4521/dsh-budget-guard#readme",
+  "homepage": "https://github.com/Alkaid4521/dsh-deadline-guard#readme",
   "bugs": {
-    "url": "https://github.com/Alkaid4521/dsh-budget-guard/issues"
+    "url": "https://github.com/Alkaid4521/dsh-deadline-guard/issues"
   },
   "dsh": {
     "bundle": {
@@ -53,16 +53,16 @@
     },
     "install": {
       "preferred": "git",
-      "git": "https://github.com/Alkaid4521/dsh-budget-guard.git",
-      "zip": "https://github.com/Alkaid4521/dsh-budget-guard/archive/refs/heads/main.zip",
-      "tarball": "https://github.com/Alkaid4521/dsh-budget-guard/archive/refs/tags/v0.1.0.tar.gz"
+      "git": "https://github.com/Alkaid4521/dsh-deadline-guard.git",
+      "zip": "https://github.com/Alkaid4521/dsh-deadline-guard/archive/refs/heads/main.zip",
+      "tarball": "https://github.com/Alkaid4521/dsh-deadline-guard/archive/refs/tags/v0.1.0.tar.gz"
     }
   },
   "dshTarget": "0.2.1-rc.2",
   "types": "lib/types/index.d.ts",
   "scripts": {
     "test": "node tests/smoke.mjs",
-    "build": "node --check lib/index.js && node --check lib/catalog.js && node --check lib/ledger.js && node --check bin/dsh-budget-guard.js",
+    "build": "node --check lib/index.js && node --check lib/catalog.js && node --check lib/ledger.js && node --check bin/dsh-deadline-guard.js",
     "prepack": "npm run build"
   },
   "peerDependencies": {

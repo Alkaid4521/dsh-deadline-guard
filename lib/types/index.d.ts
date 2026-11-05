@@ -1,5 +1,5 @@
 /**
- * Type surface for dsh-budget-guard. The plugin is plain JavaScript; these
+ * Type surface for dsh-deadline-guard. The plugin is plain JavaScript; these
  * declarations exist so a TypeScript host profile can reference the config
  * shape and the exported cordis plugin without a build step.
  */
